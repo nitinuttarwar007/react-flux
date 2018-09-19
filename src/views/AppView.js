@@ -47,14 +47,9 @@ class AppView extends React.Component {
               <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                 <div style={{marginBottom: '24px'}}>
                   <Button type="primary" onClick={this.ShowAddForm}>Add New Company</Button>
-                  &nbsp;&nbsp;
-                  <Button type="primary">Edit Company</Button>
                 </div>
-                {this.state.showAddForm ? (
                   <AppForm {...this.props}/>
-                ) : (
                   <AppMain {...this.props} />
-                )}
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>

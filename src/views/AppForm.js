@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
 const FormItem = Form.Item;
-const { TextArea } = Input;
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -10,31 +9,32 @@ function hasErrors(fieldsError) {
 class WrappedAppForm extends React.Component {
     constructor(props) {
         super(props);
-        const value = props.value || {};
     }
     
     handleSubmit = (e) => {
-        console.log('handle', this.props);
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
                 this.props.onAddCompany({
-                    CompanyName: values.CompanyName,
-                    CompanyAddress: 'Kharadi, Nagar Road, Pune',
-                    CompanyEmail: 'contact@abc.com',
-                    CompanyInfo: 'This Service Based Company'
+                    CompanyName: values.companyName,
+                    CompanyAddress: values.companyAddress,
+                    CompanyEmail: values.companyEmail,
+                    CompanyInfo: values.companyInfo,
+                    Selected: false,
                 })
-                
             }
         });
     }
 
     render() {
-        const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
+        const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form;
         const companyNameError = isFieldTouched('companyName') && getFieldError('companyName');
+        const companyEmailError = isFieldTouched('companyEmail') && getFieldError('companyEmail');
+        const companyAddressError = isFieldTouched('companyAddress') && getFieldError('companyAddess');
+        const companyInfoError = isFieldTouched('companyInfo') && getFieldError('companyInfo');
+
         return (
-            <Form layout="inline" onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmit}>
                 <FormItem 
                     label="Company Name"
                     validateStatus={companyNameError ? 'error' : ''}
@@ -45,6 +45,51 @@ class WrappedAppForm extends React.Component {
                     })(
                         <Input />
                 )}
+                </FormItem>
+                <FormItem 
+                    label="Company Email"
+                    validateStatus={companyEmailError ? 'error' : ''}
+                    help={companyEmailError || ''}
+                >
+                {getFieldDecorator('companyEmail', {
+                        rules: [{
+                            type: 'email', 
+                            required: true, 
+                            message: 'The input is not valid E-mail!' 
+                        }],
+                    })(
+                    <Input />
+                )}
+                </FormItem>
+                <FormItem 
+                    label="Company Address"
+                    validateStatus={companyAddressError ? 'error' : ''}
+                    help={companyAddressError || ''}
+                >
+                {getFieldDecorator('companyAddress', {
+                        rules: [{ 
+                            required: true, 
+                            message: 'Please input your company address!' 
+                        }],
+                    })(
+                        <Input/>
+                    )
+                }
+                </FormItem>
+                <FormItem 
+                    label="Company Info"
+                    validateStatus={companyInfoError ? 'error' : ''}
+                    help={companyInfoError || ''}
+                >
+                {getFieldDecorator('companyInfo', {
+                        rules: [{ 
+                            required: true, 
+                            message: 'Please input your company Information!' 
+                        }],
+                    })(
+                        <Input/>
+                    )
+                }
                 </FormItem>
                 <FormItem>
                     <Button type="primary" htmlType="submit">

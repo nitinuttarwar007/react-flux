@@ -36,14 +36,15 @@ class AppStore extends ReduceStore {
               return state.delete(action.id);
       
             case actionTypes.TOGGLE_COMPANY:
-              console.log("toggle action", action);
-              console.log('state', state);
               
               return state.update(
                 action.id,
                 dataStructure => dataStructure.set('Selected', !dataStructure.Selected),
               );
-      
+            
+              case actionTypes.EDIT_COMPANY:
+                return state;
+            
             default:
               return state;
         }

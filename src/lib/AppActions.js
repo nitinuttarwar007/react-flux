@@ -22,6 +22,13 @@ const AppActions = {
           id,
         });
     },
+
+    editCompany(Company) {
+        AppDispatcher.dispatch({
+          type: actionTypes.EDIT_COMPANY,
+          Company,
+        });
+    },
 };
 
 export default AppActions;

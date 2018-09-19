@@ -17,6 +17,7 @@ class CompanyContainer extends Component {
       onAddCompany: actions.addCompany,
       onDeleteCompany: actions.deleteCompany,
       onToggleCompany: actions.toggleCompany,
+      onEditCompany: actions.editCompany,
     };
   }
 
