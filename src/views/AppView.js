@@ -1,11 +1,23 @@
 import React from 'react';
-import { Button, Form, Input, Layout, Menu, Icon } from 'antd';
-
+import { Button, Layout, Menu, Icon } from 'antd';
+import AppMain from './AppMain';
+import AppForm from './AppForm';
 const { Header, Content, Footer, Sider } = Layout;
-const FormItem = Form.Item;
-const { TextArea } = Input;
+class AppView extends React.Component {
+  constructor(props) {
+      super(props);
+      this.state = {
+          showAddForm: false,
+      }
+  }
 
-function AppView(props) {
+  ShowAddForm = () => {
+    this.setState({
+      showAddForm: true
+    });
+  }
+
+  render() {
     return (
       <div>
         <Layout style={{ minHeight: '100vh' }}>
@@ -13,12 +25,12 @@ function AppView(props) {
             <p style={{ textAlign:'center', color: '#08c', margin: '10px' }}>
               Companies
             </p>
-            {[...props.companies.values()].reverse().map(company => (
+            {[...this.props.companies.values()].map(company => (
               <Menu
-                  onClick={() => props.onToggleCompany(company.id)}
+                  onClick={() => this.props.onToggleCompany(company.id)}
                   theme="dark"
                   mode="inline"
-                  defaultSelectedKeys= {'[' + company.id + ']' }
+                  defaultSelectedKeys= {[company.id]}
                 >
                 <Menu.Item key={company.id}>
                   <Icon type="team" />
@@ -33,7 +45,16 @@ function AppView(props) {
             </Header>
             <Content style={{ margin: '0 16px' }}>
               <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                <AppMain {...props} />
+                <div style={{marginBottom: '24px'}}>
+                  <Button type="primary" onClick={this.ShowAddForm}>Add New Company</Button>
+                  &nbsp;&nbsp;
+                  <Button type="primary">Edit Company</Button>
+                </div>
+                {this.state.showAddForm ? (
+                  <AppForm {...this.props}/>
+                ) : (
+                  <AppMain {...this.props} />
+                )}
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>
@@ -44,55 +65,6 @@ function AppView(props) {
       </div>
     );
   }
+}
   
-  function AppMain(props) {
-    if (props.companies.size === 0) {
-      return null;
-    }
-    return (
-      <section id="main">
-          {[...props.companies.values()].reverse().map(company => (
-            company.Selected ? (
-              <Form>
-                <FormItem
-                  label="Company Name"
-                >
-                  <Input 
-                    value={company.CompanyName}
-                   />
-                </FormItem>
-                <FormItem
-                  label="E-mail"
-                >
-                  <Input 
-                    value={company.CompanyEmail}
-                   />
-                </FormItem>
-                <FormItem
-                  label="Company Address"
-                >
-                  <TextArea 
-                    value={company.CompanyAddress}
-                   />
-                </FormItem>
-                <FormItem
-                  label="Company Info"
-                >
-                  <TextArea 
-                    value={company.CompanyInfo}
-                   />
-                </FormItem>
-                <FormItem>
-                    <Button
-                      type="primary"
-                      onClick={() => props.onDeleteCompany(company.id)}>
-                        Delete
-                    </Button>
-                </FormItem>
-              </Form>
-            ) : null
-          ))}
-      </section>
-    );
-  }
 export default AppView;

@@ -16,7 +16,6 @@ class AppStore extends ReduceStore {
     }
 
     reduce(state, action) {
-        console.log(state, action);
         switch (action.type) {
             case actionTypes.ADD_COMPANY:
               if (!action.Company.CompanyName) {
@@ -34,11 +33,12 @@ class AppStore extends ReduceStore {
               ));
             
             case actionTypes.DELETE_COMPANY:
-            console.log("toggle action", action)
               return state.delete(action.id);
       
             case actionTypes.TOGGLE_COMPANY:
-              console.log("toggle action", action)
+              console.log("toggle action", action);
+              console.log('state', state);
+              
               return state.update(
                 action.id,
                 dataStructure => dataStructure.set('Selected', !dataStructure.Selected),
