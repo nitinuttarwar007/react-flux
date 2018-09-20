@@ -1,10 +1,6 @@
 import React from 'react';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 const FormItem = Form.Item;
-
-function hasErrors(fieldsError) {
-    return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
 
 class WrappedAppForm extends React.Component {
     constructor(props) {
@@ -22,7 +18,9 @@ class WrappedAppForm extends React.Component {
                     CompanyInfo: values.companyInfo,
                     Selected: false,
                 })
+                message.success('New company details successfully added!');
             }
+
         });
     }
 
@@ -93,7 +91,7 @@ class WrappedAppForm extends React.Component {
                 </FormItem>
                 <FormItem>
                     <Button type="primary" htmlType="submit">
-                        Add
+                        Add Company
                     </Button>
                 </FormItem>
             </Form>

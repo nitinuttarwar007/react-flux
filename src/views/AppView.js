@@ -17,6 +17,13 @@ class AppView extends React.Component {
     });
   }
 
+  handleClick = (e) => {
+    this.setState({
+      showAddForm: false
+    })
+    this.props.onToggleCompany(e.key)
+  }
+
   render() {
     return (
       <div>
@@ -25,19 +32,19 @@ class AppView extends React.Component {
             <p style={{ textAlign:'center', color: '#08c', margin: '10px' }}>
               Companies
             </p>
-            {[...this.props.companies.values()].map(company => (
               <Menu
-                  onClick={() => this.props.onToggleCompany(company.id)}
+                  onClick={this.handleClick}
                   theme="dark"
+                  defaultSelectedKeys={["id-1"]}
                   mode="inline"
-                  defaultSelectedKeys= {[company.id]}
                 >
+              {[...this.props.companies.values()].map(company => (
                 <Menu.Item key={company.id}>
                   <Icon type="team" />
                   <span>{company.CompanyName}</span>
                 </Menu.Item>
-              </Menu>
-            ))}
+              ))}
+            </Menu>
           </Sider>
           <Layout>
             <Header style={{ textAlign: 'center', background: '#fff', padding: 0, marginBottom: '15px' }}>
@@ -48,8 +55,9 @@ class AppView extends React.Component {
                 <div style={{marginBottom: '24px'}}>
                   <Button type="primary" onClick={this.ShowAddForm}>Add New Company</Button>
                 </div>
-                  <AppForm {...this.props}/>
-                  <AppMain {...this.props} />
+                  {this.state.showAddForm ? (
+                  <AppForm {...this.props}/>) : (
+                  <AppMain {...this.props} />) }
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>

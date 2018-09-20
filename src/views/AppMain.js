@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 
 const FormItem = Form.Item;
 
@@ -9,19 +9,18 @@ class WrappedAppMain extends React.Component {
     }
 
     handleSubmit = (e) => {
-        console.log('handle', this.props);
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
                 this.props.onEditCompany({
                     id: values.companyId,
                     CompanyName: values.companyName,
                     CompanyAddress: values.companyAddress,
                     CompanyEmail: values.companyEmail,
                     CompanyInfo: values.companyInfo,
-                    Selected: true,
+                    Selected: false,
                 })
+                message.success('Company details updated successfully!');
             }
         });
     }
@@ -98,14 +97,14 @@ class WrappedAppMain extends React.Component {
                                     type="primary"
                                     onClick={() => this.props.onDeleteCompany(company.id)}
                                 >
-                                    Delete
+                                    Delete Company
                                 </Button>
                                 &nbsp;&nbsp;
                                 <Button
                                     type="primary"
                                     htmlType="submit"
                                 >
-                                    Edit
+                                    Edit Company
                                 </Button>
                             </FormItem>
                         </Form>
